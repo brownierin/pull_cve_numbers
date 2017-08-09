@@ -4,11 +4,11 @@ import re
 def get_page(url):
 	page = requests.get(url)
 	if page.text:
-		print "page retrieved"
+		print "[+] Page retrieved successfully"
 		return page.text
 	else:
-		print "Problem downloading page"
-
+		print "[-] Problem downloading page"
+	
 def remove_duplicates(cves):
 	unique_cves = []
 	for cve in cves:
@@ -17,9 +17,10 @@ def remove_duplicates(cves):
 	return unique_cves
 
 def prettyprint(cves):
+	print "[+] Listing unique CVEs"
 	for cve in cves:
 		print cve
-	print "Number of CVEs found: " + str(len(cves))
+	print "[+] Number of CVEs found: {}".format(str(len(cves)))
 	return cves
 
 def process():
@@ -30,6 +31,6 @@ def process():
 		cves = remove_duplicates(cves)
 		prettyprint(cves)
 	else:
-		print "No CVEs found"
+		print "[-] No CVEs found"
 
 process()
