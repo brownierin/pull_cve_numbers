@@ -34,10 +34,9 @@ def process():
         print "[-] No CVEs found"
     
 parser = argparse.ArgumentParser(description='Pulls CVEs from either a \
-    page or from a file')
+    webpage or from a file')
 group = parser.add_mutually_exclusive_group()
-group.add_argument('--url', '-u',
-                help='the url of the page')
+group.add_argument('--url', '-u', help='the url of the page')
 group.add_argument('--file', '-f', help="name of the file to process")
 args = parser.parse_args()
 
