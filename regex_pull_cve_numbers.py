@@ -1,14 +1,22 @@
 import requests
 import re
+import argparse
 
 def get_page(url):
-	page = requests.get(url)
-	if page.text:
+	try: 
+		page = requests.get(url)
 		print "[+] Page retrieved successfully"
 		return page.text
-	else:
+	except:
 		print "[-] Problem downloading page"
-	
+
+def get_file(filename):
+	try:
+		text = open(filename, "r")
+		return text.read()
+	except:
+		print "[-] Problem opening file"
+
 def remove_duplicates(cves):
 	unique_cves = []
 	for cve in cves:
@@ -24,13 +32,23 @@ def prettyprint(cves):
 	return cves
 
 def process():
-	url = raw_input("Input a URL: ")
-	page = get_page(url)
-	cves = re.findall(r'CVE-\d{4}-\d{4,6}', page)
+	if args.file:
+		text = get_file(args.file)
+	elif args.url:
+		text = get_page(args.url)
+	cves = re.findall(r'CVE-\d{4}-\d{4,6}', text)
 	if cves:
 		cves = remove_duplicates(cves)
 		prettyprint(cves)
 	else:
 		print "[-] No CVEs found"
+	
+parser = argparse.ArgumentParser(description='Pulls CVEs from either a \
+	page or from a file')
+parser.add_argument('--url', '-u',
+                help='the url of the page')
+parser.add_argument('--file', '-f', help="name of the file to process")
+args = parser.parse_args()
+print args
 
 process()
