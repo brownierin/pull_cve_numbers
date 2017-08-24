@@ -7,29 +7,20 @@ def get_page(url):
 		page = requests.get(url)
 		print "[+] Page retrieved successfully"
 		return page.text
-	except:
+	except Exception:
 		print "[-] Problem downloading page"
 
 def get_file(filename):
 	try:
-		text = open(filename, "r")
-		return text.read()
-	except:
+		return open(filename, "r").read()
+	except Exception:
 		print "[-] Problem opening file"
-
-def remove_duplicates(cves):
-	unique_cves = []
-	for cve in cves:
-		if cve not in unique_cves:
-			unique_cves.append(cve)
-	return unique_cves
 
 def prettyprint(cves):
 	print "[+] Listing unique CVEs"
 	for cve in cves:
 		print cve
-	print "[+] Number of CVEs found: {}".format(str(len(cves)))
-	return cves
+	print "[+] Number of CVEs found: {}".format(len(cves))
 
 def process():
 	if args.file:
@@ -38,8 +29,7 @@ def process():
 		text = get_page(args.url)
 	cves = re.findall(r'CVE-\d{4}-\d{4,6}', text)
 	if cves:
-		cves = remove_duplicates(cves)
-		prettyprint(cves)
+		prettyprint(set(cves))
 	else:
 		print "[-] No CVEs found"
 	
@@ -50,6 +40,5 @@ group.add_argument('--url', '-u',
                 help='the url of the page')
 group.add_argument('--file', '-f', help="name of the file to process")
 args = parser.parse_args()
-print args
 
 process()
