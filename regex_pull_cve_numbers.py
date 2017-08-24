@@ -45,9 +45,10 @@ def process():
 	
 parser = argparse.ArgumentParser(description='Pulls CVEs from either a \
 	page or from a file')
-parser.add_argument('--url', '-u',
+group = parser.add_mutually_exclusive_group()
+group.add_argument('--url', '-u',
                 help='the url of the page')
-parser.add_argument('--file', '-f', help="name of the file to process")
+group.add_argument('--file', '-f', help="name of the file to process")
 args = parser.parse_args()
 print args
 
