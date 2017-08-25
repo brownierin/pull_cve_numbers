@@ -27,7 +27,7 @@ def process():
         text = get_file(args.file)
     elif args.url:
         text = get_page(args.url)
-    cves = re.findall(r'CVE-\d{4}-\d{4,6}', text)
+    cves = re.findall(r'CVE-\d{4}-\d{4,10}', text)
     if cves:
         prettyprint(set(cves))
     else:
