@@ -1,11 +1,13 @@
-This script uses base libraries in Python 2.7.x to:
+This script uses Python 2.7.x to:
 
 - download a remote webpage or
 - read a local file
 - find CVE numbers in either source
 - remove any duplicate CVE numbers
 
-Run it on any system with python installed by downloading the script and:
+It relies on the [requests library](http://docs.python-requests.org/en/master/).
+
+Run it by downloading the script and:
 
 `python regex_pull_cve_numbers.py --file filename.txt`
 
